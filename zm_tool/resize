@@ -1,0 +1,21 @@
+import cv2
+
+# Define the directory where you want to save resized images
+save_directory = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_540'
+
+# Open the text file containing image paths
+with open('/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/hover_net_zhimin/zm_tool/selected_patches.txt', 'r') as file:
+    image_paths = file.read().splitlines()
+
+for image_path in image_paths:
+    # Load the image
+    image = cv2.imread(image_path)
+    
+    # Resize the image
+    resized_image = cv2.resize(image, (540, 540), interpolation=cv2.INTER_CUBIC)
+    
+    # Define the save path
+    save_path = os.path.join(save_directory, os.path.basename(image_path))
+    
+    # Save the resized image
+    cv2.imwrite(save_path, resized_image)
