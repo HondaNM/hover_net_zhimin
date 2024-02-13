@@ -1,5 +1,5 @@
 import cv2
-
+import os
 # Define the directory where you want to save resized images
 save_directory = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_540'
 
