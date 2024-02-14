@@ -1,5 +1,6 @@
 import cv2
 import os
+from tqdm import tqdm
 # Define the directory where you want to save resized images
 save_directory = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_540'
 
@@ -7,7 +8,7 @@ save_directory = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/datase
 with open('/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/hover_net_zhimin/zm_tool/selected_patches.txt', 'r') as file:
     image_paths = file.read().splitlines()
 
-for image_path in image_paths:
+for image_path in tqdm(image_paths, desc="Resizing Images"):
     # Load the image
     image = cv2.imread(image_path)
     
