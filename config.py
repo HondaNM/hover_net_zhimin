@@ -45,14 +45,14 @@ class Config(object):
                 raise Exception("If using `fast` mode, input shape must be [256,256] and output shape must be [164,164]")
 
         self.dataset_name = "consep" # extracts dataset info from dataset.py
-        self.log_dir = "logs/" # where checkpoints will be saved
+        self.log_dir = "/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/logs/" # where checkpoints will be saved
 
         # paths to training and validation patches
         self.train_dir_list = [
-            "train_patches_path"
+            "/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_resizing/train"
         ]
         self.valid_dir_list = [
-            "valid_patches_path"
+            "/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_resizing/valid"
         ]
 
         self.shape_info = {
