@@ -18,6 +18,7 @@ Executable = run_train.sh
 Universe = vanilla
 getenv = true
 request_gpus = 1
+request_memory = 8192
 
 #Log =    /shared/anastasio5/COVID19/covid19_classification_with_gan/covidx_gan_patch/train.log
 Output = /shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/resize1.out
