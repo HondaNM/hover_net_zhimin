@@ -1,6 +1,6 @@
 import os
 import shutil
-from sklearn.model_selection import train_test_split
+import random
 
 # Define the directory containing the images
 image_directory = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_540'
