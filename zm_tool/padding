@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from tqdm import tqdm
 import os
-save_path = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_540_padding'
+save_directory = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_540_padding'
 
 with open('/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/hover_net_zhimin/zm_tool/selected_patches.txt', 'r') as file:
     image_paths = file.read().splitlines()
@@ -29,7 +29,7 @@ for image_path in tqdm(image_paths, desc="Resizing Images"):
     # Pad the image
     padded_image = cv2.copyMakeBorder(image, top, bottom, left, right, cv2.BORDER_CONSTANT, value=[0, 0, 0])
 
-    save_path = os.path.join(save_path, os.path.basename(image_path))
+    save_path = os.path.join(save_directory, os.path.basename(image_path))
 
     # Save the resized image
     cv2.imwrite(save_path, padded_image)
