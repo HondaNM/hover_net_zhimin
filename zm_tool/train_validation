@@ -9,24 +9,22 @@ image_directory = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/datas
 train_directory = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_resizing/train'
 valid_directory = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_resizing/valid'
 
-# Get all image file names
-image_files = [f for f in os.listdir(image_directory) if os.path.isfile(os.path.join(image_directory, f))]
+# Get a list of files
+files = os.listdir(image_directory)
+random.shuffle(files)
 
-# Split the image files into training and validation sets (80% train, 20% valid)
-train_files, valid_files = train_test_split(image_files, test_size=0.20, random_state=42)
+# Split into 80% train, 20% valid
+split_idx = int(0.8 * len(files))
+train_files = files[:split_idx]
+valid_files = files[split_idx:]
 
-# Function to copy files to a new location
-def copy_files(files, src_directory, dest_directory):
-    for file in files:
-        shutil.copy(os.path.join(src_directory, file), os.path.join(dest_directory, file))
-
-# Create directories if they don't exist
+# Create train/valid directories if they don't exist
 os.makedirs(train_directory, exist_ok=True)
 os.makedirs(valid_directory, exist_ok=True)
 
-# Copy the files to the respective directories
-copy_files(train_files, image_directory, train_directory)
-copy_files(valid_files, image_directory, valid_directory)
+# Copy files
+for file in train_files:
+    shutil.copy(os.path.join(image_directory, file), os.path.join(train_directory, file))
 
-print(f"Training images copied: {len(train_files)}")
-print(f"Validation images copied: {len(valid_files)}")
+for file in valid_files:
+    shutil.copy(os.path.join(image_directory, file), os.path.join(valid_directory, file))
