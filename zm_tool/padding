@@ -1,0 +1,36 @@
+import cv2
+import numpy as np
+from tqdm import tqdm
+import os
+save_path = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_540_padding'
+
+with open('/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/hover_net_zhimin/zm_tool/selected_patches.txt', 'r') as file:
+    image_paths = file.read().splitlines()
+# image_path = '/Users/wangzhimin/Desktop/Research/feature_Interpretation/hover_net/TCGA-WL-A834-isalive1-x99966y45401-istumor1.png'
+# save_path = '/Users/wangzhimin/Desktop/Research/feature_Interpretation/hover_net/kkk.png'
+for image_path in tqdm(image_paths, desc="Resizing Images"):
+    # Load the image
+    image = cv2.imread(image_path)
+
+
+    # Define new width and height
+    new_width, new_height = 540, 540
+
+    # Calculate the padding sizes
+    top = bottom = (new_height - image.shape[0]) // 2
+    left = right = (new_width - image.shape[1]) // 2
+
+    # Adjust the padding if the new dimensions are not even
+    if (new_height - image.shape[0]) % 2 != 0:
+        bottom += 1
+    if (new_width - image.shape[1]) % 2 != 0:
+        right += 1
+
+    # Pad the image
+    padded_image = cv2.copyMakeBorder(image, top, bottom, left, right, cv2.BORDER_CONSTANT, value=[0, 0, 0])
+
+    save_path = os.path.join(save_path, os.path.basename(image_path))
+
+    # Save the resized image
+    cv2.imwrite(save_path, padded_image)
+
