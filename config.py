@@ -49,10 +49,10 @@ class Config(object):
 
         # paths to training and validation patches
         self.train_dir_list = [
-            "/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_resizing/train"
+            "/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_resizing/train_npy"
         ]
         self.valid_dir_list = [
-            "/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_resizing/valid"
+            "/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_resizing/valid_npy"
         ]
 
         self.shape_info = {
