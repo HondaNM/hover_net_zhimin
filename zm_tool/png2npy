@@ -29,7 +29,7 @@ def png_to_npy(input_dir, output_dir):
         np.save(os.path.join(output_dir, output_file_name), img_array)
 
 # Example usage
-input_dir = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_padding/train'  # Change this to your input directory path
-output_dir = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_padding/train_npy'  # Change this to your desired output directory path
+input_dir = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_padding/valid'  # Change this to your input directory path
+output_dir = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_padding/valid_npy'  # Change this to your desired output directory path
 
 png_to_npy(input_dir, output_dir)
