@@ -52,7 +52,7 @@ def get_config(nr_type, mode):
                         },
                         # path to load, -1 to auto load checkpoint from previous phase,
                         # None to start from scratch
-                        "pretrained": "/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/hover_net_zhimin/models/hovernet/pretrained/ImageNet-ResNet50-Preact_pytorch.tar",
+                        "pretrained": "/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/pretrained/hovernet_original_consep_notype_tf2pytorch.tar",
                         # 'pretrained': None,
                     },
                 },
