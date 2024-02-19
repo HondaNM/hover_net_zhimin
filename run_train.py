@@ -115,8 +115,7 @@ class TrainManager(Config):
         input_dataset = FileLoader(
             file_list,
             mode=run_mode,
-            # with_type=self.type_classification,
-            with_type=False,
+            with_type=self.type_classification,
             setup_augmentor=nr_procs == 0,
             target_gen=target_gen,
             **self.shape_info[run_mode]
