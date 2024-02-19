@@ -11,5 +11,5 @@ tile \
 --input_dir=/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_padding/train\
 --output_dir=/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result \
 --mem_usage=0.1 \
---draw_dot=True \
---save_qupath=Trure
+--draw_dot \
+--save_qupath
