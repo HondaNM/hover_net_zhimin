@@ -3,11 +3,11 @@ import shutil
 import random
 
 # Define the directory containing the images
-image_directory = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_540'
+image_directory = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_540_padding'
 
 # Define the directories for the training and validation sets
-train_directory = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_resizing/train'
-valid_directory = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_resizing/valid'
+train_directory = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_padding/train'
+valid_directory = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_padding/valid'
 
 # Get a list of files
 files = os.listdir(image_directory)
