@@ -38,7 +38,7 @@ for batch_dir in batch_dirs:
     """
     
     # # Execute the command
-    # process = subprocess.Popen(command, shell=True, executable='/bin/bash')
-    # process.wait()
+    process = subprocess.Popen(command, shell=True, executable='/bin/bash')
+    process.wait()
 
 print("All batches processed.")
