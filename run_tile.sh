@@ -1,4 +1,8 @@
 #!/bin/bash
+
+input_dir=$1
+output_dir=$2
+
 python run_infer.py \
 --gpu='4' \
 --nr_types=0 \
@@ -9,8 +13,8 @@ python run_infer.py \
 --nr_inference_workers=8 \
 --nr_post_proc_workers=8 \
 tile \
---input_dir=/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_padding/train/images_batch_1 \
---output_dir=/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/images_batch_1 \
+--input_dir="${input_dir}" \
+--output_dir="${output_dir}" \
 --mem_usage=0.2 \
---draw_dot \
+--draw_dot
 #--save_qupath
