@@ -1,0 +1,44 @@
+import subprocess
+import os
+
+# Base directory where your images_batch_* folders are located
+base_input_dir = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_padding/train'
+base_output_dir = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result'
+
+# The path to your run_tile.sh script
+run_tile_script_path = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/hover_net_zhimin/run_tile.sh'
+
+# Automatically detect all images_batch_* folders
+batch_dirs = [d for d in os.listdir(base_input_dir) if os.path.isdir(os.path.join(base_input_dir, d)) and 'images_batch_' in d]
+batch_dirs.sort(key=lambda x: int(x.split('_')[-1]))  # Sort the directories numerically
+
+for batch_dir in batch_dirs:
+    input_dir = os.path.join(base_input_dir, batch_dir)
+    output_dir = os.path.join(base_output_dir, batch_dir)
+    
+    # Make sure the output directory exists
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Construct the command to run
+    command = f"""
+    {run_tile_script_path} \
+    --gpu='4' \
+    --nr_types=0 \
+    --type_info_path=type_info.json \
+    --batch_size=32 \
+    --model_mode=original \
+    --model_path=/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/pretrained/hovernet_original_consep_notype_tf2pytorch.tar \
+    --nr_inference_workers=8 \
+    --nr_post_proc_workers=8 \
+    tile \
+    --input_dir={input_dir} \
+    --output_dir={output_dir} \
+    --mem_usage=0.2 \
+    --draw_dot \
+    """
+    
+    # Execute the command
+    process = subprocess.Popen(command, shell=True, executable='/bin/bash')
+    process.wait()
+
+print("All batches processed.")

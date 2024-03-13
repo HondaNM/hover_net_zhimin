@@ -2,7 +2,7 @@ import os
 import shutil
 
 # Set the path to your folder containing images
-image_folder_path = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_padding/train'
+image_folder_path = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_resizing/train'
 
 # The maximum number of images per folder
 max_images_per_folder = 500
