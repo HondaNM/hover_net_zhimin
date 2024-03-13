@@ -18,27 +18,28 @@ for batch_dir in batch_dirs:
     
     # Make sure the output directory exists
     os.makedirs(output_dir, exist_ok=True)
-    
+    print(input_dir)
     # Construct the command to run
-    command = f"""
-    {run_tile_script_path} \
-    --gpu='4' \
-    --nr_types=0 \
-    --type_info_path=type_info.json \
-    --batch_size=32 \
-    --model_mode=original \
-    --model_path=/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/pretrained/hovernet_original_consep_notype_tf2pytorch.tar \
-    --nr_inference_workers=8 \
-    --nr_post_proc_workers=8 \
-    tile \
-    --input_dir={input_dir} \
-    --output_dir={output_dir} \
-    --mem_usage=0.2 \
-    --draw_dot \
-    """
+
+    # command = f"""
+    # {run_tile_script_path} \
+    # --gpu='4' \
+    # --nr_types=0 \
+    # --type_info_path=type_info.json \
+    # --batch_size=32 \
+    # --model_mode=original \
+    # --model_path=/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/pretrained/hovernet_original_consep_notype_tf2pytorch.tar \
+    # --nr_inference_workers=8 \
+    # --nr_post_proc_workers=8 \
+    # tile \
+    # --input_dir={input_dir} \
+    # --output_dir={output_dir} \
+    # --mem_usage=0.2 \
+    # --draw_dot \
+    # """
     
-    # Execute the command
-    process = subprocess.Popen(command, shell=True, executable='/bin/bash')
-    process.wait()
+    # # Execute the command
+    # process = subprocess.Popen(command, shell=True, executable='/bin/bash')
+    # process.wait()
 
 print("All batches processed.")
