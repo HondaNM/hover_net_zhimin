@@ -1,0 +1,30 @@
+import os
+import shutil
+
+# Set the path to your folder containing images
+image_folder_path = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_padding/train'
+
+# The maximum number of images per folder
+max_images_per_folder = 500
+
+def divide_images_into_folders(folder_path, max_files):
+    # Create a list of all files in the folder
+    files = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
+    
+    # Calculate the number of folders needed
+    total_files = len(files)
+    num_folders = total_files // max_files + (1 if total_files % max_files > 0 else 0)
+    
+    for i in range(num_folders):
+        # Create a subfolder for each group of images
+        new_folder_name = os.path.join(folder_path, f'images_batch_{i+1}')
+        os.makedirs(new_folder_name, exist_ok=True)
+        
+        # Move images to the new folder
+        for file in files[i*max_files:(i+1)*max_files]:
+            shutil.move(os.path.join(folder_path, file), new_folder_name)
+
+    print(f"Successfully divided {total_files} images into {num_folders} folders.")
+
+# Run the function
+divide_images_into_folders(image_folder_path, max_images_per_folder)
