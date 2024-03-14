@@ -2,7 +2,7 @@
 #!/bin/bash
 
 # Path to the directory containing images_batch_* directories
-batches_dir="/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_resizing"
+batches_dir="/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_padding/train"
 
 # Loop through each images_batch_* directory
 for batch_dir in ${batches_dir}/images_batch_*; do
@@ -10,7 +10,7 @@ for batch_dir in ${batches_dir}/images_batch_*; do
     batch_num=$(basename $batch_dir)
     
     # Specify the output directory
-    output_dir="/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/resizing/${batch_num}"
+    output_dir="/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/${batch_num}"
 
     echo "Starting processing for ${batch_num} at $(date)"
     # Call run_tile.sh with the current batch directory and corresponding output directory
