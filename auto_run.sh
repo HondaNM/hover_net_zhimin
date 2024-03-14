@@ -2,7 +2,7 @@
 #!/bin/bash
 
 # Path to the directory containing images_batch_* directories
-batches_dir="/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_resizing/train"
+batches_dir="/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/dataset_with_resizing"
 
 # Loop through each images_batch_* directory
 for batch_dir in ${batches_dir}/images_batch_*; do
