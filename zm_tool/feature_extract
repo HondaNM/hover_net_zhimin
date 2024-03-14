@@ -1,0 +1,85 @@
+import histomicstk.features as hf
+import cv2
+import json
+import numpy as np
+import os
+import pandas as pd
+
+base_dir = "/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation"
+
+def get_image_json_pairs(batch_num):
+    images_dir = f"{base_dir}/dataset_with_padding/images_batch_{batch_num}"
+    json_dir = f"{base_dir}/result/images_batch_{batch_num}/json"
+    
+    pairs = []
+    for image_name in os.listdir(images_dir):
+        if image_name.endswith(".png"):
+            base_name = os.path.splitext(image_name)[0]
+            image_path = os.path.join(images_dir, image_name)
+            json_path = os.path.join(json_dir, f"{base_name}.json")
+            if os.path.exists(json_path):
+                pairs.append((image_path, json_path))
+    return pairs
+
+def load_json(json_file):
+    with open(json_file, "r") as f:
+        res = json.load(f)
+        return res['nuc']
+
+def draw_mask(contour_pt_dict, img_size, use_object_id=False):
+    mask = np.zeros([img_size, img_size, 3], dtype=np.uint8)
+    for object_id, contour_pt in contour_pt_dict.items():
+        if not use_object_id:
+            object_id = 1
+        else:
+            object_id = int(object_id)
+        contour = np.array(contour_pt["contour"]).reshape((-1, 1, 2)).astype(np.int32)
+        cv2.drawContours(mask, [contour], contourIdx=-1, color=(object_id, object_id, object_id), thickness=cv2.FILLED)
+    return mask[:, :, 0]
+
+def compute_features(json_file, image_file):
+    res = load_json(json_file)
+    img = cv2.imread(image_file)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    mask = draw_mask(res, gray.shape[0], use_object_id=True)
+    fdata = hf.compute_nuclei_features(mask, gray, 
+                                       morphometry_features_flag=True, 
+                                       fsd_features_flag=True,
+                                       intensity_features_flag=True,
+                                       gradient_features_flag=True, 
+                                       haralick_features_flag=True)
+    image_name = os.path.basename(image_file)
+    feature_means = fdata.mean().mean()
+    feature_stds = fdata.std().mean()
+    
+    return image_name, feature_means, feature_stds, fdata
+
+
+if __name__ == "__main__":
+    start_batch = 1  # Starting batch number
+    end_batch = 10    # Ending batch number, inclusive
+    
+    all_features = []  # To aggregate features from all batches
+    summary_stats = []  # To collect mean and std for each image
+    for batch_num in range(start_batch, end_batch + 1):
+        print(f"Processing Batch {batch_num}")
+        pairs = get_image_json_pairs(batch_num)
+        
+        for image_file, json_file in pairs:
+            print(f"Processing {os.path.basename(image_file)}...")
+            image_name, mean, std, fdata = compute_features(json_file, image_file)
+            # Optional: add additional identifiers or batch info to fdata before appending
+            fdata['batch_num'] = batch_num
+            fdata['image_file'] = os.path.basename(image_file)
+            all_features.append(fdata)
+            summary_stats.append({"name": image_name, "mean": mean, "std": std})
+            print("----")
+    
+    summary_df = pd.DataFrame(summary_stats)
+    summary_df.to_csv('/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/batch1_to_10/feature_summary_stats.csv', index=False)
+    # Concatenate all DataFrame objects into a single DataFrame
+    all_features_df = pd.concat(all_features, ignore_index=True)
+    all_features_df.to_csv('/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/batch1_to_10/all_features.csv', index=False)
+    # Save or process the aggregated feature DataFrame
+    # Example: Save to CSV
+    
