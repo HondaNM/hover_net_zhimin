@@ -42,33 +42,44 @@ def compute_features(json_file, image_file):
     img = cv2.imread(image_file)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     mask = draw_mask(res, gray.shape[0], use_object_id=True)
-    fdata = hf.compute_nuclei_features(mask, gray, 
-                                       morphometry_features_flag=True, 
-                                       fsd_features_flag=True,
-                                       intensity_features_flag=True,
-                                       gradient_features_flag=True, 
-                                       haralick_features_flag=True)
-    image_name = os.path.basename(image_file)
-    feature_means = fdata.mean().mean()
-    feature_stds = fdata.std().mean()
+    if np.sum(mask) == 0:
+        print(f"No regions detected in {image_file}. Skipping.")
+        return None, None, None, pd.DataFrame(), True  # Include image_file in the return
+
+    try:
+        fdata = hf.compute_nuclei_features(mask, gray, 
+                                           morphometry_features_flag=True, 
+                                           fsd_features_flag=True,
+                                           intensity_features_flag=True,
+                                           gradient_features_flag=True, 
+                                           haralick_features_flag=True)
+        image_name = os.path.basename(image_file)
+        feature_means = fdata.mean().mean()
+        feature_stds = fdata.std().mean()
+        return image_name, feature_means, feature_stds, fdata, False
+    except Exception as e:
+        print(f"Error processing {image_file}: {e}")
+        return None, None, None, pd.DataFrame(), True  # Include image_file in the return
     
-    return image_name, feature_means, feature_stds, fdata
-
-
 if __name__ == "__main__":
     start_batch = 1  # Starting batch number
     end_batch = 10    # Ending batch number, inclusive
     
     all_features = []  # To aggregate features from all batches
     summary_stats = []  # To collect mean and std for each image
+    images_with_no_features = []  # List to store names of images without features
     for batch_num in range(start_batch, end_batch + 1):
         print(f"Processing Batch {batch_num}")
         pairs = get_image_json_pairs(batch_num)
         
         for image_file, json_file in pairs:
             print(f"Processing {os.path.basename(image_file)}...")
-            image_name, mean, std, fdata = compute_features(json_file, image_file)
+            image_name, mean, std, fdata, no_features_image = compute_features(json_file, image_file)
             # Optional: add additional identifiers or batch info to fdata before appending
+            if no_features_image:
+                images_with_no_features.append(no_features_image)
+                print(f"No features in {os.path.basename(image_file)}...")
+                continue
             fdata['batch_num'] = batch_num
             fdata['image_file'] = os.path.basename(image_file)
             all_features.append(fdata)
@@ -77,9 +88,15 @@ if __name__ == "__main__":
     
     summary_df = pd.DataFrame(summary_stats)
     summary_df.to_csv('/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/batch1_to_10/feature_summary_stats.csv', index=False)
-    # Concatenate all DataFrame objects into a single DataFrame
+
     all_features_df = pd.concat(all_features, ignore_index=True)
+
     all_features_df.to_csv('/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/batch1_to_10/all_features.csv', index=False)
+
+    no_features_file_path = "/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/batch1_to_10/no_features_images.txt"
+    with open(no_features_file_path, "w") as file:
+        for image in images_with_no_features:
+            file.write(f"{image}\n")
     # Save or process the aggregated feature DataFrame
     # Example: Save to CSV
     
