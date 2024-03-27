@@ -49,7 +49,7 @@ importance_df = pd.DataFrame({'Features': features, 'Importance': feature_import
 importance_df = importance_df.sort_values(by='Importance', ascending=False)
 
 # Plotting
-plt.figure(figsize=(10, 8))
+plt.figure(figsize=(20, 15))
 plt.barh(importance_df['Features'][:20], importance_df['Importance'][:20])  # Top 10 features
 plt.xlabel('Importance')
 plt.ylabel('Feature')
