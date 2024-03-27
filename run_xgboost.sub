@@ -1,0 +1,26 @@
+#!/bin/bash
+# cyclegan_testing.sub
+
+Executable = run_xgboost.sh
+# argument = " "
+#
+# FILE TRANSFER ARGUMENTS
+# transfer_input_files =
+# should_transfer_fiels = IF_NEEDED
+# when_to_transfer_output = ON_EXIT
+# notification = never
+
+# Only if you need to specify a machine
+#requirements = (machine == "aristotle.bioen.illinois.edu")
+#requirements = (machine == "anastasio4.bioen.illinois.edu")
+#requirements = (machine == "anastasio1.bioen.illinois.edu")
+
+Universe = vanilla
+getenv = true
+request_gpus = 1
+request_memory = 8192
+
+#Log =    /shared/anastasio5/COVID19/covid19_classification_with_gan/covidx_gan_patch/train.log
+Output = /shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/xgboost/train_xg.out
+Error =  /shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/xgboost/train_xg.err
+Queue
