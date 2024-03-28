@@ -40,13 +40,15 @@ feature_importance_df = feature_importance_df.sort_values('Importance', ascendin
 
 # Print feature importances
 print(feature_importance_df)
+# Assuming 'feature_importances' is your DataFrame
+feature_importance_df.to_csv('shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/lightGBM/feature_importance_scores.csv', index=False)
 
 # Plotting the top 20 features
 plt.figure(figsize=(30, 15))
 sns.barplot(x="Importance", y="Feature", data=feature_importance_df.head(20))
 plt.title("Top 20 Feature Importances")
 plt.tight_layout()
-plt.savefig('top20_feature_importance_lightgbm.png', dpi=300)  # Save the figure
+plt.savefig('shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/lightGBM/top20_feature_importance_lightgbm.png', dpi=300)  # Save the figure
 plt.show()
 
 # Print accuracy for reference
