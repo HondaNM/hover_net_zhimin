@@ -39,8 +39,7 @@ feature_importance_df = pd.DataFrame({'Feature': feature_names, 'Importance': im
 feature_importance_df = feature_importance_df.sort_values('Importance', ascending=False).reset_index(drop=True)
 
 # Print feature importances
-for feature_names, importances in feature_importance_df:
-    print(f"{feature_names}: {importances}")
+print(feature_importance_df)
 
 # Plotting the top 20 features
 plt.figure(figsize=(30, 15))
