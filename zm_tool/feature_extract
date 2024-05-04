@@ -80,22 +80,20 @@ if __name__ == "__main__":
                 images_with_no_features.append(no_features_image)
                 print(f"No features in {os.path.basename(image_file)}...")
                 continue
-            else:# for the first image
-                fdata['batch_num'] = batch_num
-                fdata['image_file'] = os.path.basename(image_file)
-                all_features.append(fdata)
-                summary_stats.append({"name": image_name, "mean": mean, "std": std})
-                print("----")
-                break
+            fdata['batch_num'] = batch_num
+            fdata['image_file'] = os.path.basename(image_file)
+            all_features.append(fdata)
+            summary_stats.append({"name": image_name, "mean": mean, "std": std})
+            print("----")
     
     summary_df = pd.DataFrame(summary_stats)
-    summary_df.to_csv('/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/batch1_to_10/feature_test_single.csv', index=False)
+    summary_df.to_csv('/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/batch1_to_10/feature_summary_stats.csv', index=False)
 
     all_features_df = pd.concat(all_features, ignore_index=True)
 
-    all_features_df.to_csv('/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/batch1_to_10/all_features_single.csv', index=False)
+    all_features_df.to_csv('/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/batch1_to_10/all_features.csv', index=False)
 
-    no_features_file_path = "/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/batch1_to_10/no_features_images_single.txt"
+    no_features_file_path = "/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/batch1_to_10/no_features_images.txt"
     with open(no_features_file_path, "w") as file:
         for image in images_with_no_features:
             file.write(f"{image}\n")
