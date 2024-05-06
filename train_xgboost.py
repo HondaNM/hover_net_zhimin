@@ -6,14 +6,14 @@ import matplotlib.pyplot as plt
 from joblib import dump, load
 
 # Save the model to a file
-model_path = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/xgboost/xgboost_model.joblib'
+model_path = '/shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/xgboost/xgboost_model_mean.joblib'
 # Load the dataset from the CSV file
-data_path = 'filtered_features.csv'  # Update this to your CSV file path
+data_path = 'updated_mean_features.csv'  # Update this to your CSV file path
 data = pd.read_csv(data_path)
 
 # Separate features and label
-X = data.drop('Extracted_Label', axis=1)
-y = data['Extracted_Label']
+X = data.drop(['Label', 'image_file'], axis=1)
+y = data['Label']
 
 # Split the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
