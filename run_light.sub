@@ -22,6 +22,6 @@ request_gpus = 1
 request_memory = 8192
 
 #Log =    /shared/anastasio5/COVID19/covid19_classification_with_gan/covidx_gan_patch/train.log
-Output = /shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/lightGBM/train_xg.out
-Error =  /shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/lightGBM/train_xg.err
+Output = /shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/lightGBM/train_lg.out
+Error =  /shared/anastasio-s2/SI/TCVAE/DL_feature_interpretation/result/lightGBM/train_lg.err
 Queue
